@@ -1,0 +1,24 @@
+{
+  "name": "ng-slide-push",
+  "version": "1.0.0",
+  "homepage": "https://github.com/wilsonwc/slide.and.push",
+  "authors": [
+    "Ross Wilson <ross@wilsonwc.com>"
+  ],
+  "description": "Angular slide and push menus based on codrops demo",
+  "main": "scripts/slide.and.push.js",
+  "keywords": [
+    "angular",
+    "drawer",
+    "push",
+    "menu"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
