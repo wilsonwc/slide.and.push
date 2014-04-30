@@ -1,4 +1,5 @@
-angular.module("slidePushMenu", []).factory("slidePush", [->
+angular.module("slidePushMenu", []).factory("slidePush", ->
+  "use strict"
   spmenuHorizontalHeight = undefined
   spmenuVerticalWidth = undefined
   spmenuVerticalWidth = 320
@@ -40,7 +41,7 @@ angular.module("slidePushMenu", []).factory("slidePush", [->
     body = undefined
     bodyLeft = undefined
     bodyTop = undefined
-    body = angular.element(document.querySelector("body"))
+    body = angular.element("body")
     btn.toggleClass "active"
     if menu.hasClass("spmenu-left")
       bodyLeft = parseInt(body.css("left"))
@@ -93,7 +94,7 @@ angular.module("slidePushMenu", []).factory("slidePush", [->
     bodyLeft = undefined
     if menu.hasClass("spmenu-open")
       btn.removeClass "active"
-      body = angular.element(document.querySelector("body"))
+      body = angular.element("body")
       if menu.hasClass("spmenu-left")
         bodyLeft = parseInt(body.css("left"))
         bodyLeft = ((if bodyLeft then bodyLeft else 0))
@@ -111,37 +112,40 @@ angular.module("slidePushMenu", []).factory("slidePush", [->
         body.css "top", "auto"
         menu.css "bottom", parseInt(menu.css("bottom")) - spmenuHorizontalHeight
       menu.removeClass "spmenu-open"
-]).directive("ngSlideMenu", [
+).directive("ngSlideMenu", [
   "slidePush"
   (slidePush) ->
+    "use strict"
     return (
       restrict: "A"
       link: (scope, elem, attrs) ->
         elem.click ->
           menu = undefined
-          menu = angular.element(document.querySelector("#" + attrs.ngSlideMenu))
+          menu = angular.element("#" + attrs.ngSlideMenu)
           slidePush.slide menu, elem
 
     )
 ]).directive("ngPushMenu", [
   "slidePush"
   (slidePush) ->
+    "use strict"
     return (
       restrict: "A"
       link: (scope, elem, attrs) ->
         body = undefined
         menu = undefined
-        menu = angular.element(document.querySelector("#" + attrs.ngPushMenu))
-        body = angular.element(document.querySelector("body"))
+        menu = angular.element("#" + attrs.ngPushMenu)
+        body = angular.element("body")
         body.addClass "spmenu-push"
         elem.click ->
           slidePush.push menu, elem
 
     )
-]).directive "ngSlidePushMenu", [
+]).directive "pushMenu", [
   "$document"
   "slidePush"
   ($document, slidePush) ->
+    "use strict"
     compile = undefined
     link = undefined
     compile = (elem, attrs, transclude) ->
@@ -153,19 +157,16 @@ angular.module("slidePushMenu", []).factory("slidePush", [->
         body = undefined
         btn = undefined
         buttonClass = undefined
-        buttonText = undefined
         classes = undefined
         positionFix = undefined
         classes = ((if attrs.spmClass then attrs.spmClass else ""))
         classes += " spmenu spmenu-" + ((if attrs.position is "right" or attrs.position is "left" then "vertical" else "horizontal")) + " spmenu-" + attrs.position
         elem.addClass classes
-        body = angular.element(document.querySelector("body"))
+        body = angular.element("body")
         if attrs.button
           btn = elem.find(".spmenu-button").addClass("show")
-          buttonText = (if attrs.buttonText then attrs.buttonText else "")
           buttonClass = (if attrs.buttonClass then attrs.buttonClass else "")
-          btn.addClass buttonClass
-          btn.append "<span class=\"" + buttonClass + "\">" + buttonText + "</span>"
+          elem.find(".toggle").addClass buttonClass
           positionFix = ((if attrs.fixTop then "top: " + (parseInt(attrs.fixTop) + elem.position().top) + "px; " else ""))
           positionFix += ((if attrs.fixLeft then "left: " + (parseInt(attrs.fixLeft) + elem.position().left) + "px; " else ""))
           btn.attr "style", positionFix
@@ -177,7 +178,7 @@ angular.module("slidePushMenu", []).factory("slidePush", [->
               slidePush.slide elem, btn
 
           if attrs.button is "push"
-            angular.element(document.querySelector("body")).addClass "spmenu-push"
+            body.addClass "spmenu-push"
             $document.mouseup (e) ->
               slidePush.pushForceClose elem, btn  if not elem.is(e.target) and elem.has(e.target).length is 0 and not body.hasClass("modal-open")
 
@@ -192,7 +193,7 @@ angular.module("slidePushMenu", []).factory("slidePush", [->
       compile: compile
       restrict: "E"
       replace: true
-      template: "<nav><a class=\"spmenu-button\"><i class=\"caret\"></i></a></nav>"
-      transclude: "element"
+      template: "<nav><a class=\"spmenu-button\"><i class=\"toggle\"></i></a></nav>"
+      transclude: true
     )
 ]
