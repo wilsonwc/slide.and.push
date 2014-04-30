@@ -1,4 +1,6 @@
-angular.module("slidePushMenu", []).factory('slidePush',function () {
+angular.module("slidePushMenu", []).factory('slidePush', function () {
+    "use strict";
+
     var spmenuHorizontalHeight, spmenuVerticalWidth;
     spmenuVerticalWidth = 320;
     spmenuHorizontalHeight = 150;
@@ -145,90 +147,94 @@ angular.module("slidePushMenu", []).factory('slidePush',function () {
         }
     };
 }).directive("ngSlideMenu", [
-        'slidePush', function (slidePush) {
-            return {
-                restrict: "A",
-                link: function (scope, elem, attrs) {
-                    return elem.click(function () {
-                        var menu;
-                        menu = angular.element("#" + attrs.ngSlideMenu);
-                        return slidePush.slide(menu, elem);
-                    });
-                }
-            };
-        }
-    ]).directive("ngPushMenu", [
-        'slidePush', function (slidePush) {
-            return {
-                restrict: "A",
-                link: function (scope, elem, attrs) {
-                    var body, menu;
-                    menu = angular.element("#" + attrs.ngPushMenu);
-                    body = angular.element("body");
-                    body.addClass("spmenu-push");
-                    return elem.click(function () {
-                        return slidePush.push(menu, elem);
-                    });
-                }
-            };
-        }
-    ]).directive("ngSlidePushMenu", [
-        "$document", 'slidePush', function ($document, slidePush) {
-            var compile, link;
-            compile = function (elem, attrs, transclude) {
-                link.transclude = transclude;
-                return link;
-            };
-            link = function (scope, elem, attrs) {
-                return link.transclude(scope, function (clone) {
-                    var body, btn, buttonClass, buttonText, classes, positionFix;
-                    classes = (attrs.spmClass ? attrs.spmClass : "");
-                    classes += " spmenu spmenu-" + (attrs.position === "right" || attrs.position === "left" ? "vertical" : "horizontal") + " spmenu-" + attrs.position;
-                    elem.addClass(classes);
-                    body = angular.element("body");
-                    if (attrs.button) {
-                        btn = elem.find(".spmenu-button").addClass("show");
-                        buttonText = attrs.buttonText ? attrs.buttonText : "";
-                        buttonClass = attrs.buttonClass ? attrs.buttonClass : "";
-                        btn.addClass(buttonClass);
-                        btn.append("<span class=\"" + buttonClass + "\">" + buttonText + "</span>");
-                        positionFix = (attrs.fixTop ? "top: " + (parseInt(attrs.fixTop) + elem.position().top) + "px; " : "");
-                        positionFix += (attrs.fixLeft ? "left: " + (parseInt(attrs.fixLeft) + elem.position().left) + "px; " : "");
-                        btn.attr("style", positionFix);
-                        if (attrs.button === "slide") {
-                            $document.mouseup(function (e) {
-                                if (!elem.is(e.target) && elem.has(e.target).length === 0 && !body.hasClass('modal-open')) {
-                                    return slidePush.slideForceClose(elem, btn);
-                                }
-                            });
-                            btn.click(function () {
-                                return slidePush.slide(elem, btn);
-                            });
-                        }
-                        if (attrs.button === "push") {
-                            angular.element("body").addClass("spmenu-push");
-                            $document.mouseup(function (e) {
-                                if (!elem.is(e.target) && elem.has(e.target).length === 0 && !body.hasClass('modal-open')) {
-                                    return slidePush.pushForceClose(elem, btn);
-                                }
-                            });
-                            btn.click(function () {
-                                return slidePush.push(elem, btn);
-                            });
-                        }
-                    }
-                    elem.append(clone);
-                    if (attrs.open) {
-                        return btn.click();
-                    }
+    'slidePush', function (slidePush) {
+        "use strict";
+
+        return {
+            restrict: "A",
+            link: function (scope, elem, attrs) {
+                return elem.click(function () {
+                    var menu;
+                    menu = angular.element("#" + attrs.ngSlideMenu);
+                    return slidePush.slide(menu, elem);
                 });
-            };
-            return {
-                compile: compile,
-                restrict: "E",
-                replace: true,
-                template: "<nav><a class=\"spmenu-button\"><i class=\"caret\"></i></a></nav>",
-                transclude: "element"
-            };
-        }
-    ]);
+            }
+        };
+    }
+]).directive("ngPushMenu", [
+    'slidePush', function (slidePush) {
+        "use strict";
+
+        return {
+            restrict: "A",
+            link: function (scope, elem, attrs) {
+                var body, menu;
+                menu = angular.element("#" + attrs.ngPushMenu);
+                body = angular.element("body");
+                body.addClass("spmenu-push");
+                return elem.click(function () {
+                    return slidePush.push(menu, elem);
+                });
+            }
+        };
+    }
+]).directive("pushMenu", [
+    "$document", 'slidePush', function ($document, slidePush) {
+        "use strict";
+
+        var compile, link;
+        compile = function (elem, attrs, transclude) {
+            link.transclude = transclude;
+            return link;
+        };
+        link = function (scope, elem, attrs) {
+            return link.transclude(scope, function (clone) {
+                var body, btn, buttonClass, classes, positionFix;
+                classes = (attrs.spmClass ? attrs.spmClass : "");
+                classes += " spmenu spmenu-" + (attrs.position === "right" || attrs.position === "left" ? "vertical" : "horizontal") + " spmenu-" + attrs.position;
+                elem.addClass(classes);
+                body = angular.element("body");
+                if (attrs.button) {
+                    btn = elem.find(".spmenu-button").addClass("show");
+                    buttonClass = attrs.buttonClass ? attrs.buttonClass : "";
+                    elem.find(".toggle").addClass(buttonClass);
+                    positionFix = (attrs.fixTop ? "top: " + (parseInt(attrs.fixTop) + elem.position().top) + "px; " : "");
+                    positionFix += (attrs.fixLeft ? "left: " + (parseInt(attrs.fixLeft) + elem.position().left) + "px; " : "");
+                    btn.attr("style", positionFix);
+                    if (attrs.button === "slide") {
+                        $document.mouseup(function (e) {
+                            if (!elem.is(e.target) && elem.has(e.target).length === 0 && !body.hasClass('modal-open')) {
+                                return slidePush.slideForceClose(elem, btn);
+                            }
+                        });
+                        btn.click(function () {
+                            return slidePush.slide(elem, btn);
+                        });
+                    }
+                    if (attrs.button === "push") {
+                        body.addClass("spmenu-push");
+                        $document.mouseup(function (e) {
+                            if (!elem.is(e.target) && elem.has(e.target).length === 0 && !body.hasClass('modal-open')) {
+                                return slidePush.pushForceClose(elem, btn);
+                            }
+                        });
+                        btn.click(function () {
+                            return slidePush.push(elem, btn);
+                        });
+                    }
+                }
+                elem.append(clone);
+                if (attrs.open) {
+                    return btn.click();
+                }
+            });
+        };
+        return {
+            compile: compile,
+            restrict: "E",
+            replace: true,
+            template: '<nav><a class="spmenu-button"><i class="toggle"></i></a></nav>',
+            transclude: true
+        };
+    }
+]);

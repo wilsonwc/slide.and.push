@@ -1,0 +1,190 @@
+/* General styles for all menus */
+@import "variables";
+
+.spmenu {
+  background: @menu-background-color;
+  position: fixed;
+  &.spmenu-open {
+
+  }
+}
+
+/* Button */
+.spmenu-button {
+  display: none;
+  position: absolute;
+  font-size: 25px;
+  text-align: center;
+  padding: 5px;
+  background: @btn-background-color;
+  color: @btn-font-color;
+  text-decoration: none;
+  border: none !important;
+  &.show {
+    display: block;
+  }
+  &.active {
+    background: @lbl-active-background-color;
+    color: @lbl-active-font-color;
+    .toggle {
+      //insert your active toggle here
+    }
+  }
+
+  .toggle {
+    cursor: pointer;
+    font-size: 14px;
+    //insert your inactive toggle here
+  }
+}
+
+/* Orientation-dependent styles for the content of the menu */
+
+.spmenu-vertical {
+  width: @spmenu-vertical-width;
+  height: 100%;
+  top: 0;
+  z-index: 1000;
+
+  hr {
+    margin: 0;
+    border: 0;
+    border-top: 1px solid @item-separator-color;
+  }
+  .menu-item-actions, .menu-item-edit-actions {
+    margin-top: 10px;
+    a {
+      display: inline;
+    }
+    i{
+      color: @item-separator-color;
+    }
+    .menu-item-action-separator {
+      color: @item-separator-color;
+      display: inline-block;
+      position: relative;
+      top: -2px;
+      margin: 0 5px;
+    }
+  }
+}
+
+.spmenu-horizontal {
+  width: 100%;
+  height: @spmenu-horizontal-height;
+  left: 0;
+  z-index: 1000;
+  /*overflow: hidden;*/
+  h3 {
+    height: 100%;
+    width: 20%;
+    float: left;
+  }
+  a, label {
+    float: left;
+    width: 20%;
+    padding: 0.8em;
+  }
+  hr {
+    margin: 0;
+    border: 0;
+    border-left: 1px solid @item-separator-color;
+  }
+}
+
+/* Vertical menu that slides from the left or right */
+
+.spmenu-left {
+  left: -@spmenu-vertical-width;
+  border-right: 1px solid @borders-color;
+  a.spmenu-button {
+    left: @spmenu-vertical-width;
+    top: 10px;
+  }
+}
+
+.spmenu-right {
+  right: -@spmenu-vertical-width;
+  border-left: 1px solid @borders-color;
+  a.spmenu-button {
+    right: @spmenu-vertical-width;
+    top: 10px;
+  }
+}
+
+/* Horizontal menu that slides from the top or bottom */
+
+.spmenu-top {
+  top: -@spmenu-horizontal-height;
+  border-bottom: 1px solid @borders-color;
+  a.spmenu-button {
+    left: 10px;
+    top: @spmenu-horizontal-height;
+  }
+}
+
+.spmenu-bottom {
+  bottom: -@spmenu-horizontal-height;
+  border-top: 1px solid @borders-color;
+  a.spmenu-button {
+    left: 10px;
+    bottom: @spmenu-horizontal-height;
+  }
+}
+
+/* Push classes applied to the body */
+
+.spmenu-push {
+  overflow-x: hidden;
+  position: relative;
+  left: 0;
+}
+
+.spmenu-push-toright {
+  left: @spmenu-vertical-width;
+}
+
+.spmenu-push-toleft {
+  left: -@spmenu-vertical-width;
+}
+
+/* Transitions */
+
+.spmenu, .spmenu-push {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+/* Example media queries
+
+@media screen and (max-width: 55.1875em) {
+  .spmenu-horizontal {
+    font-size: 75%;
+    height: 110px;
+  }
+  .spmenu-top {
+    top: -110px;
+  }
+  .spmenu-bottom {
+    bottom: -110px;
+  }
+}
+
+@media screen and (max-height: 26.375em) {
+  .spmenu-vertical {
+    font-size: 90%;
+    width: 190px;
+  }
+  .spmenu-left, .spmenu-push-toleft {
+    left: -190px;
+  }
+  .spmenu-right {
+    right: -190px;
+  }
+  .spmenu-push-toright {
+    left: 190px;
+  }
+}
+
+*/
