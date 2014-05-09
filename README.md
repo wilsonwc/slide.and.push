@@ -22,9 +22,9 @@ gulp
 ## Basic Usage
 
 ```
-<ng-slide-push-menu menu-open="false" position="right" button="push" button-icon-class="fa fa-menu">
+<push-menu spm-open="false" position="right" button="push" button-icon-class="fa fa-menu">
   <!--insert your content here-->
-</ng-slide-push-menu>
+</push-menu>
 
 ```
 
@@ -39,7 +39,7 @@ Use the value passed to the menu-open attribute to control the state of the menu
   fix-left: To fix the left position // In px
   spm-class: Classes added to the menu element
   button: true/false if the internal button is to appear
-  menu-open: true/false if the menu is open (bound value)
+  spm-open: true/false if the menu is open (bound value)
   menu-type: Type of menu to be used, default is 'slide' //['slide', 'push']
   button-class: extra class string to be added to the button toggle
 ```

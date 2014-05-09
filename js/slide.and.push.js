@@ -162,11 +162,7 @@ angular.module("slidePushMenu", [])
                 scope.classes += "  spmenu-" + (attrs.position === "right" || attrs.position === "left" ? "vertical" : "horizontal") + " spmenu-" + attrs.position;
                 scope.showButton = !!attrs.button;
 
-                if (scope.isOpen === undefined) {
-                    scope.isOpen = false;
-                }
-
-                scope.$watch('isOpen', function () {
+                scope.$watch('spmOpen', function () {
                     if (scope.type === 'slide') {
                         slidePush.slide(elem, btn);
                     } else if (scope.type === 'push') {
@@ -178,7 +174,7 @@ angular.module("slidePushMenu", [])
                     if (scope.type === "push") {
                         angular.element("body").addClass("spmenu-push");
                     }
-                    scope.isOpen = !scope.isOpen;
+                    scope.spmOpen = !scope.spmOpen;
                 };
 
                 body = angular.element("body");
@@ -194,9 +190,9 @@ angular.module("slidePushMenu", [])
                 }
 
                 $document.mouseup(function (e) {
-                    if (scope.isOpen && !elem.is(e.target) && elem.has(e.target).length === 0 && !body.hasClass('modal-open')) {
+                    if (scope.spmOpen && !elem.is(e.target) && elem.has(e.target).length === 0 && !body.hasClass('modal-open')) {
                         scope.$apply(function () {
-                            scope.isOpen = false;
+                            scope.spmOpen = false;
                         });
                         if (scope.type === "slide") {
                             return slidePush.slideForceClose(elem, btn);
@@ -205,6 +201,13 @@ angular.module("slidePushMenu", [])
                         }
                     }
                 });
+                if(!scope.spmOpen) {
+                    if (scope.type === "slide") {
+                        return slidePush.slideForceClose(elem, btn);
+                    } else if (scope.type === "push") {
+                        return slidePush.pushForceClose(elem, btn);
+                    }
+                }
             };
             return {
                 restrict: "E",
@@ -213,7 +216,7 @@ angular.module("slidePushMenu", [])
                 transclude: true,
                 link: link,
                 scope: {
-                    isOpen: '=menuOpen'
+                    spmOpen: '='
                 }
             };
         }
