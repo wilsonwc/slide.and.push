@@ -5,53 +5,47 @@ AngularJS Directive to make Slide and Push menus.
 
 Based in http://tympanus.net/codrops/2013/04/17/slide-and-push-menus/
 
-###Dependecies: jQuery
+###Dependecies: Angular, jQuery
+
+###Installation:
+
+```
+bower install ng-slide-push
+```
+
+###Building:
+```
+npm install
+gulp
+```
 
 ## Basic Usage
 
 ```
-<ng-slide-push-menu position="right" button="push" button-icon-class="glyphicon glyphicon-cog">
-  <h3>Menu</h3>
-  <a href="#">Item 1</a>
-  <a href="#">Item 2</a>
-  <a href="#">Item 3</a>
-  <a href="#">Item 4</a>
-  <a href="#">Item 5</a>
-  <a href="#">Item 6</a>
+<ng-slide-push-menu menu-open="false" position="right" button="push" button-icon-class="fa fa-menu">
+  <!--insert your content here-->
 </ng-slide-push-menu>
 
 ```
 
 ## Calling from external button
+Use the value passed to the menu-open attribute to control the state of the menu
+
+## Attributes
 
 ```
-<button ng-slide-menu="menu">Slide menu</button>
-<button ng-push-menu="menu">Push menu</button>
-
-<ng-slide-push-menu id="menu" position="right">
-  <h3>Menu</h3>
-  <a href="#">Item 1</a>
-  <a href="#">Item 2</a>
-  <a href="#">Item 3</a>
-  <a href="#">Item 4</a>
-  <a href="#">Item 5</a>
-  <a href="#">Item 6</a>
-</ng-slide-push-menu>
-```
-
-## Atributes
-
-```
-  id: Useful when use external buttons
   position: Position of the menu // [ 'top', 'right', 'bottom', 'left' ]
   fix-top: To fix the top position // In px
   fix-left: To fix the left position // In px
-  spm-class: To customize the Menu
-  button: If is set the button appear // ['push', 'slide']
-  button-icon-class: Class to set the button // I used Bootstrap glyphicon or font-awesome
+  spm-class: Classes added to the menu element
+  button: true/false if the internal button is to appear
+  menu-open: true/false if the menu is open (bound value)
+  menu-type: Type of menu to be used, default is 'slide' //['slide', 'push']
+  button-class: extra class string to be added to the button toggle
 ```
 
 ### TODO
 
-- Multi tab
-- Customize colors
+- Make docs more robust
+- Continue to Angularize jQuery parts
+- Create demo page
